@@ -1,7 +1,9 @@
+import os
 import urllib.request
 import json
 from yt_concate.pipeline.steps.step import Step
 from yt_concate.settings import API_KEY
+from yt_concate.settings import VIDEOURL_DIR
 
 
 class GetVideoList(Step):
@@ -15,7 +17,7 @@ class GetVideoList(Step):
 
         video_links = []
         url = first_url
-        for x in range(1):
+        for x in range(10):
             inp = urllib.request.urlopen(url)
             resp = json.load(inp)
 
@@ -28,5 +30,8 @@ class GetVideoList(Step):
                 url = first_url + '&pageToken={}'.format(next_page_token)
             except KeyError:
                 break
-        print(video_links)
+            # for a in video_links:
+            #     text_file = open(os.path.join(VIDEOURL_DIR, utils.get_video_id_from_url(a)), "w")
+            #     text_file.write(a)
+            #     text_file.close()
         return video_links
